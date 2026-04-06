@@ -1,0 +1,245 @@
+SEBI AND INDIAN INVESTMENT REGULATIONS KNOWLEDGE BASE
+======================================================
+Last Updated: FY 2024-25
+Source: SEBI, RBI, Income Tax Act, PFRDA, AMFI
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 1: INCOME TAX DEDUCTIONS FOR INVESTORS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Section 80C – Maximum Deduction: ₹1,50,000 per year
+Eligible Investments:
+- ELSS (Equity Linked Savings Scheme): 3-year lock-in, highest return potential
+- PPF (Public Provident Fund): 15-year lock-in, 7.1% interest, EEE tax status
+- EPF (Employee Provident Fund): Mandatory for salaried employees
+- NSC (National Savings Certificate): 5-year lock-in
+- Tax-saving FD: 5-year lock-in, taxable interest
+- Life Insurance Premium (LIC, term plans)
+- Home Loan Principal Repayment
+- Sukanya Samridhi Yojana (SSY): For girl child, 8.2% interest
+- Senior Citizens Savings Scheme (SCSS): 8.2% for 60+ age
+
+Section 80CCD(1B) – Additional NPS deduction: ₹50,000 over and above 80C limit
+- National Pension System (NPS) contributions under Tier-I account
+- Total effective 80C + 80CCD limit = ₹2,00,000
+
+Section 80D – Health Insurance Premium:
+- Self/Family: ₹25,000 per year
+- Parents below 60: ₹25,000 additional
+- Parents 60+: ₹50,000 additional
+- Maximum total: ₹1,00,000
+
+Section 80TTA – Savings Account Interest: ₹10,000 deduction
+Section 80TTB – Senior Citizens FD Interest: ₹50,000 deduction
+
+Standard Deduction (Salaried): ₹50,000 (both old and new regime)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 2: INCOME TAX SLABS FY 2024-25
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OLD TAX REGIME:
+- Up to ₹2,50,000: NIL
+- ₹2,50,001 – ₹5,00,000: 5%
+- ₹5,00,001 – ₹10,00,000: 20%
+- Above ₹10,00,000: 30%
+- Rebate u/s 87A: No tax if income ≤ ₹5,00,000
+
+NEW TAX REGIME (Default from FY 2024-25):
+- Up to ₹3,00,000: NIL
+- ₹3,00,001 – ₹6,00,000: 5%
+- ₹6,00,001 – ₹9,00,000: 10%
+- ₹9,00,001 – ₹12,00,000: 15%
+- ₹12,00,001 – ₹15,00,000: 20%
+- Above ₹15,00,000: 30%
+- Rebate u/s 87A: No tax if income ≤ ₹7,00,000
+
+Health & Education Cess: 4% on total income tax
+Surcharge: 10% on income >₹50L, 15% on >₹1Cr, 25% on >₹2Cr
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 3: CAPITAL GAINS TAX (as of July 2024 Budget)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EQUITY AND EQUITY MUTUAL FUNDS:
+- Short-Term Capital Gain (STCG) – held < 12 months: 20% (increased from 15% in Budget 2024)
+- Long-Term Capital Gain (LTCG) – held ≥ 12 months: 12.5% without indexation
+- LTCG Exemption: First ₹1,25,000 per year is exempt (increased from ₹1L in Budget 2024)
+
+DEBT MUTUAL FUNDS (post April 2023):
+- All gains taxed as per income tax slab (removed LTCG benefit)
+
+REAL ESTATE:
+- STCG (< 2 years): As per tax slab
+- LTCG (≥ 2 years): 20% with indexation OR 12.5% without indexation (as per Budget 2024)
+
+GOLD / GOLD ETF / SOVEREIGN GOLD BONDS:
+- SGB interest: Taxable as income; LTCG on redemption: EXEMPT after 8 years
+- Gold ETF LTCG (≥ 12 months): 12.5% without indexation
+
+STT (Securities Transaction Tax):
+- Equity Delivery: 0.1% on buy and sell
+- Futures: 0.0125% on sell side
+- Options: 0.0625% on sell side (premium)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 4: SEBI MUTUAL FUND REGULATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SEBI (Mutual Funds) Regulations, 1996 and subsequent amendments:
+
+Fund Categories (SEBI Categorization Circular 2017):
+EQUITY FUNDS:
+- Large Cap: Must invest ≥80% in top 100 companies by market cap
+- Mid Cap: Must invest ≥65% in 101-250 ranked companies
+- Small Cap: Must invest ≥65% in 251+ ranked companies
+- Multi Cap: Min 25% each in large/mid/small cap
+- Flexi Cap: Flexible allocation across market caps
+- ELSS: Min 80% in equity, 3-year lock-in
+
+DEBT FUNDS:
+- Liquid Fund: Maturity ≤91 days; no entry/exit load after 7 days
+- Overnight Fund: Maturity = 1 day
+- Short Duration: 1-3 year Macaulay duration
+- Corporate Bond Fund: Min 80% in AA+ and above
+
+HYBRID FUNDS:
+- Balanced Advantage Fund (BAF): Dynamic equity allocation
+- Aggressive Hybrid: 65-80% equity
+
+KYC Requirements:
+- PAN mandatory for investments above ₹50,000
+- Aadhaar-based e-KYC allowed
+- FATCA declaration required
+
+SIP Rules:
+- Minimum SIP: ₹500/month (most AMCs)
+- SEBI mandated SIP pause facility (3 months)
+- 30-day cooling-off period for SIP cancellation
+
+Expense Ratios (TER) – Maximum Limits:
+- Equity: 2.25% for AUM ≤₹500Cr, reducing to 1.05% for >₹50,000Cr
+- Debt: 2.00% (lower than equity)
+- Direct plans: 0.75-1.0% lower than regular plans
+
+EXIT LOAD:
+- Most equity funds: 1% if redeemed within 1 year
+- ELSS: No exit load (but 3-year lock-in)
+- Liquid/Overnight: No exit load after 7 days
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 5: NPS (NATIONAL PENSION SYSTEM)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Regulated by: PFRDA (Pension Fund Regulatory and Development Authority)
+
+Account Types:
+- Tier I: Pension account, mandatory minimum ₹1,000/year
+- Tier II: Voluntary savings, no lock-in (no tax benefit)
+
+Tax Benefits:
+- Contribution up to 10% of salary (Basic+DA) under 80CCD(1): Within 80C limit
+- Additional ₹50,000 under 80CCD(1B): Over and above 80C
+- Employer contribution up to 10% of salary: Tax-free income
+
+Investment Options:
+- Auto Choice: Age-based allocation (default)
+- Active Choice: Manual allocation
+  - Equity (E): Max 75% (for age <50), reduces by 2.5%/year after 50
+  - Corporate Bonds (C): Rated AA and above
+  - Government Securities (G): Central/State Govt bonds
+  - Alternative Assets (A): Max 5%
+
+Pension Fund Managers: LIC, SBI, HDFC, ICICI, UTI, Kotak, Aditya Birla, Axis
+
+Withdrawal Rules:
+- At 60: Min 40% must be used for annuity; 60% lump sum is TAX-FREE
+- Partial withdrawal: Allowed after 3 years for specific reasons (education, marriage, medical)
+- Tax treatment: 60% lump sum is exempt; annuity income taxable
+
+Historical Returns (5-year average):
+- Equity (E): 14-16% CAGR
+- Corporate Bonds (C): 8-10%
+- Government Securities (G): 7-9%
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 6: PPF (PUBLIC PROVIDENT FUND)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Current Interest Rate: 7.1% per annum (Q1 FY 2024-25, announced quarterly by government)
+Lock-in: 15 years (extendable in 5-year blocks)
+Investment Limit: Minimum ₹500, Maximum ₹1,50,000 per year
+EEE Status: Exempt-Exempt-Exempt (investment, interest, maturity all tax-free)
+
+Partial Withdrawal: Allowed from 7th year (up to 50% of balance)
+Loan Facility: 3rd to 6th year (interest = PPF rate + 1%)
+
+Best For: Conservative investors, those in 30% tax bracket (effective yield = 7.1/0.7 = ~10.1%)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 7: SEBI INVESTMENT ADVISER REGULATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SEBI (Investment Advisers) Regulations, 2013:
+- Any entity providing investment advice must be registered with SEBI
+- IA Registration: Mandatory for fee-based advice
+- Qualifications: NISM Series-X-A/B certification required
+- Fee Disclosure: Fixed fee or AUM-based fee (not commission-based)
+- Conflict of Interest: Cannot distribute products they advise on
+
+AMFI (Association of Mutual Funds in India):
+- All mutual fund distributors must be AMFI-registered (ARN number)
+- NISM Series V-A exam mandatory for distributors
+
+RBI Regulations on Banking:
+- Savings Account Interest: RBI deregulated; typically 3-4% (major banks) to 7% (small finance banks)
+- FD Rates: FDIC not applicable in India; DICGC insures up to ₹5,00,000 per bank per depositor
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 8: RECOMMENDED ASSET ALLOCATION BY RISK PROFILE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CONSERVATIVE (Low Risk):
+- Debt/Fixed Income: 70% (FDs, Debt MFs, Bonds)
+- Equity: 20% (Large Cap / Index Funds)
+- Gold: 10% (SGBs, Gold ETF)
+
+MODERATE (Balanced):
+- Equity: 60% (50% large cap + 10% mid cap)
+- Debt: 30% (Short-duration MFs, FDs)
+- Gold: 10%
+
+AGGRESSIVE (High Risk, Long Horizon):
+- Equity: 80% (30% large + 30% mid + 20% small cap)
+- Debt: 15% (For liquidity)
+- Gold: 5%
+
+Emergency Fund: 6 months of expenses in liquid fund or savings account (always maintain first)
+Insurance: Term life cover = 10-15x annual income; Health cover ≥ ₹5,00,000
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 9: KEY INDIAN FINANCIAL BENCHMARKS (2024)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Nifty 50 Historical CAGR (20-year): ~14%
+Sensex Historical CAGR (30-year): ~15%
+India CPI Inflation (average): 5-6% per year
+RBI Repo Rate (as of mid-2024): 6.5%
+10-Year G-Sec Yield: ~7%
+SBI FD Rate (1-year): ~6.8%
+PPF Rate: 7.1%
+
+Top Performing Large Cap Funds (5Y CAGR, indicative):
+- Mirae Asset Large Cap: ~15%
+- SBI Bluechip: ~16%
+- Axis Bluechip: ~14%
+
+Top Performing Mid Cap Funds (5Y CAGR, indicative):
+- Nippon India Mid Cap: ~26%
+- SBI Magnum Midcap: ~24%
+- HDFC Mid Cap Opportunities: ~25%
+
+Top ELSS Funds (5Y CAGR, indicative):
+- Quant ELSS Tax Saver: ~28%
+- Mirae Asset ELSS Tax Saver: ~18%
+- Axis ELSS Tax Saver: ~16%
