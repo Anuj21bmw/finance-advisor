@@ -5,7 +5,7 @@ Flow:
   START → Researcher → Analyzer → Executor → Planner → Critic → (retry?) → END
                                                            ↑_______________|
 """
-from typing import Literal
+from typing import Literal, Generator, Tuple, Any
 from loguru import logger
 from langgraph.graph import StateGraph, START, END
 
@@ -28,34 +28,24 @@ def should_retry_or_end(state: FinanceAdvisorState) -> Literal["planner", "__end
     return END
 
 
-def has_error(state: FinanceAdvisorState) -> Literal["continue", "error"]:
-    """Check for critical errors that should stop the workflow."""
-    if state.get("error") and not state.get("research_output"):
-        return "error"
-    return "continue"
-
-
 # ── Graph Builder ─────────────────────────────────────────────────────────────
 
 def build_graph() -> StateGraph:
     """Construct and compile the LangGraph workflow."""
     graph = StateGraph(FinanceAdvisorState)
 
-    # Add agent nodes
     graph.add_node("researcher", run_researcher)
     graph.add_node("analyzer", run_analyzer)
     graph.add_node("executor", run_executor)
     graph.add_node("planner", run_planner)
     graph.add_node("critic", run_critic)
 
-    # Linear edges: START → researcher → analyzer → executor → planner → critic
     graph.add_edge(START, "researcher")
     graph.add_edge("researcher", "analyzer")
     graph.add_edge("analyzer", "executor")
     graph.add_edge("executor", "planner")
     graph.add_edge("planner", "critic")
 
-    # Conditional edge: critic → (retry to planner | end)
     graph.add_conditional_edges(
         "critic",
         should_retry_or_end,
@@ -65,7 +55,7 @@ def build_graph() -> StateGraph:
     return graph.compile()
 
 
-# Singleton compiled graph
+# Singleton compiled graph — built once per process
 _graph = None
 
 
@@ -85,16 +75,18 @@ def run_finance_advisor(
     stream: bool = False,
 ):
     """
-    Main entry point to run the full multi-agent finance advisor pipeline.
+    Run the full multi-agent finance advisor pipeline.
 
     Args:
-        user_query: The user's financial question
-        uploaded_pdfs: List of paths to uploaded PDF files
+        user_query: User's natural language question.
+        uploaded_pdfs: Paths to uploaded PDF files.
         user_profile: Dict with age, income, risk_appetite, goals, etc.
-        stream: If True, yield state updates as they happen (for live UI)
+        stream: If True, returns a generator yielding (node_name, state_update)
+                tuples. The LAST yielded tuple will have node_name="__final__"
+                and contain the complete merged final state — no second call needed.
 
     Returns:
-        Final state dict with all agent outputs and advice
+        Final FinanceAdvisorState (stream=False) or Generator (stream=True).
     """
     graph = get_graph()
     initial_state = create_initial_state(
@@ -105,16 +97,32 @@ def run_finance_advisor(
 
     if stream:
         return _stream_graph(graph, initial_state)
-    else:
-        logger.info(f"Running finance advisor for query: '{user_query[:80]}'")
-        final_state = graph.invoke(initial_state)
-        logger.success("Finance advisor pipeline completed")
-        return final_state
+
+    logger.info(f"Running finance advisor: '{user_query[:80]}'")
+    final_state = graph.invoke(initial_state)
+    logger.success("Finance advisor pipeline completed")
+    return final_state
 
 
-def _stream_graph(graph, initial_state):
-    """Generator that yields (agent_name, state) tuples as each node completes."""
+def _stream_graph(
+    graph, initial_state: FinanceAdvisorState
+) -> Generator[Tuple[str, Any], None, None]:
+    """
+    Generator that yields (node_name, state_update) as each agent completes.
+    After all nodes finish, yields ("__final__", merged_final_state) so the
+    caller never needs to run the graph a second time.
+    """
+    # Accumulate all partial updates to reconstruct the final state
+    merged: dict = dict(initial_state)
+
     for chunk in graph.stream(initial_state, stream_mode="updates"):
         for node_name, state_update in chunk.items():
             logger.debug(f"Node '{node_name}' completed")
+            # Deep-merge: state_update overrides only keys it sets
+            for k, v in state_update.items():
+                if v is not None:
+                    merged[k] = v
             yield node_name, state_update
+
+    # Final yield — the caller uses this as the complete result
+    yield "__final__", merged

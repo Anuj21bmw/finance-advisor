@@ -1,0 +1,44 @@
+# ── Secrets ───────────────────────────────────────────────────────────────────
+.env
+*.key
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ── Virtual Environments ──────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+.conda/
+
+# ── Data (user uploads, generated files) ─────────────────────────────────────
+data/sample_statements/*.pdf
+data/uploads/
+*.tmp
+
+# ── IDE ───────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Evaluation outputs ────────────────────────────────────────────────────────
+evaluation/ragas_results.json
+evaluation/*.csv
+
+# ── Jupyter ───────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
