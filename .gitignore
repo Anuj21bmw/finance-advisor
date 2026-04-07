@@ -25,6 +25,11 @@ data/sample_statements/*.pdf
 data/uploads/
 *.tmp
 
+# ── Frontend build artifacts ─────────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
 # ── IDE ───────────────────────────────────────────────────────────────────────
 .vscode/
 .idea/
