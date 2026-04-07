@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Bell, Settings, TrendingUp, TrendingDown } from 'lucide-react'
+import { Bell, Settings, TrendingUp, TrendingDown, Menu } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { clsx } from 'clsx'
 import { marketApi } from '@/api/client'
+
+interface NavbarProps { onMobileMenuClick?: () => void }
 
 const PAGE_TITLES: Record<string, string> = {
   '/': 'Dashboard',
@@ -20,7 +22,7 @@ interface TickerItem {
   change_pct: number
 }
 
-export default function Navbar() {
+export default function Navbar({ onMobileMenuClick }: NavbarProps) {
   const location = useLocation()
   const title = PAGE_TITLES[location.pathname] ?? 'Finance Advisor'
   const [tickerData, setTickerData] = useState<TickerItem[]>([])
@@ -43,9 +45,17 @@ export default function Navbar() {
   }, [indicesData])
 
   return (
-    <header className="h-16 bg-surface border-b border-border flex items-center px-6 gap-4 sticky top-0 z-40">
+    <header className="h-16 bg-slate-800 border-b border-slate-700 flex items-center px-4 sm:px-6 gap-3 sm:gap-4 sticky top-0 z-40">
+      {/* Hamburger — mobile only */}
+      <button
+        onClick={onMobileMenuClick}
+        className="lg:hidden text-slate-400 hover:text-white transition-colors p-1 flex-shrink-0"
+      >
+        <Menu size={22} />
+      </button>
+
       {/* Page title */}
-      <h1 className="text-white font-semibold text-lg min-w-[140px]">{title}</h1>
+      <h1 className="text-white font-semibold text-base sm:text-lg min-w-[100px] sm:min-w-[140px]">{title}</h1>
 
       {/* Market ticker strip */}
       <div className="flex-1 overflow-hidden">

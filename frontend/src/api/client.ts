@@ -14,21 +14,35 @@ import type {
   TopFundsResponse,
   NewsResponse,
   DocumentUploadResponse,
+  LoginPayload,
+  RegisterPayload,
+  TokenResponse,
+  AuthUser,
 } from '@/types'
 
 // ── Axios Instance ─────────────────────────────────────────────────────────────
 
 const api = axios.create({
   baseURL: '/api',
-  timeout: 120000, // 2 minutes for AI queries
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  timeout: 120000,
+  headers: { 'Content-Type': 'application/json' },
+})
+
+// Attach JWT on every request
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('fa_token')
+  if (token) config.headers.Authorization = `Bearer ${token}`
+  return config
 })
 
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('fa_token')
+      localStorage.removeItem('fa_user')
+      window.location.href = '/login'
+    }
     const message =
       error.response?.data?.detail ||
       error.response?.data?.message ||
@@ -37,6 +51,27 @@ api.interceptors.response.use(
     return Promise.reject(new Error(message))
   }
 )
+
+// ── Auth API ──────────────────────────────────────────────────────────────────
+
+export const authApi = {
+  register: async (payload: RegisterPayload): Promise<TokenResponse> => {
+    const { data } = await api.post<TokenResponse>('/auth/register', payload)
+    return data
+  },
+  login: async (payload: LoginPayload): Promise<TokenResponse> => {
+    const { data } = await api.post<TokenResponse>('/auth/login', payload)
+    return data
+  },
+  me: async (): Promise<AuthUser> => {
+    const { data } = await api.get<AuthUser>('/auth/me')
+    return data
+  },
+  logout: () => {
+    localStorage.removeItem('fa_token')
+    localStorage.removeItem('fa_user')
+  },
+}
 
 // ── Advisor API ────────────────────────────────────────────────────────────────
 

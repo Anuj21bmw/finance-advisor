@@ -1,8 +1,14 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { UserProfile, AdvisorResponse, UploadedFile, ChatMessage } from '@/types'
+import type { UserProfile, AdvisorResponse, UploadedFile, ChatMessage, AuthUser } from '@/types'
 
 interface FinanceStore {
+  // ── Auth ──────────────────────────────────────────────────────────────────
+  authUser: AuthUser | null
+  authToken: string | null
+  setAuth: (user: AuthUser, token: string) => void
+  clearAuth: () => void
+
   // User profile
   userProfile: UserProfile
   setUserProfile: (profile: Partial<UserProfile>) => void
@@ -35,6 +41,20 @@ interface FinanceStore {
 export const useStore = create<FinanceStore>()(
   persist(
     (set, get) => ({
+      // ── Auth ────────────────────────────────────────────────────────────────
+      authUser: null,
+      authToken: null,
+      setAuth: (user, token) => {
+        localStorage.setItem('fa_token', token)
+        localStorage.setItem('fa_user', JSON.stringify(user))
+        set({ authUser: user, authToken: token })
+      },
+      clearAuth: () => {
+        localStorage.removeItem('fa_token')
+        localStorage.removeItem('fa_user')
+        set({ authUser: null, authToken: null })
+      },
+
       // ── User Profile ────────────────────────────────────────────────────────
       userProfile: {
         age: 30,

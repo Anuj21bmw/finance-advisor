@@ -7,13 +7,15 @@ import json
 import asyncio
 from typing import Optional
 
-from fastapi import APIRouter, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, HTTPException, WebSocket, WebSocketDisconnect, Depends
 from loguru import logger
 
 # Add project root to path so we can import src.*
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from backend.models import AdvisorRequest, AdvisorResponse
+from backend.auth import get_current_user
+from backend.db_models import User
 
 router = APIRouter(prefix="/api/advisor", tags=["advisor"])
 
@@ -25,7 +27,7 @@ def _profile_to_dict(profile) -> Optional[dict]:
 
 
 @router.post("/query", response_model=AdvisorResponse)
-async def query_advisor(request: AdvisorRequest):
+async def query_advisor(request: AdvisorRequest, current_user: User = Depends(get_current_user)):
     """
     Run the full multi-agent finance advisor pipeline synchronously.
     Returns the complete AdvisorResponse when all agents have finished.

@@ -20,6 +20,9 @@ venv/
 env/
 .conda/
 
+# ── Database ─────────────────────────────────────────────────────────────────
+data/users.db
+
 # ── Data (user uploads, generated files) ─────────────────────────────────────
 data/sample_statements/*.pdf
 data/uploads/
