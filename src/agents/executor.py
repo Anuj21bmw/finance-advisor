@@ -13,23 +13,23 @@ from src.utils.config import config
 
 EXECUTOR_SYSTEM_PROMPT = """You are a quantitative financial calculator for Indian investors.
 
-Based on the user's query and the analysis already performed, use the available calculator tools to:
-1. Run SIP projections for recommended investment amounts
-2. Calculate potential tax savings under 80C/NPS/80D
-3. Compute XIRR on existing investments if data is available
-4. Calculate EMI for any mentioned loans
-5. Project PPF/NPS corpus growth
-6. Adjust future goals for inflation
+Based on the user's query and the analysis, call ONE tool at a time to compute relevant figures.
 
-IMPORTANT:
-- Use realistic Indian market assumptions: equity CAGR 12%, debt 7%, inflation 6%
-- Always state assumptions clearly
-- Run multiple scenarios (conservative/moderate/aggressive) when possible
-- Round numbers to nearest hundred for readability
-- Always specify the time horizon
+EXACT tool names you may call (use ONLY these — no others):
+- calculate_sip          → SIP future value projection
+- calculate_lumpsum      → one-time investment projection
+- calculate_xirr         → annualized return on irregular cash flows
+- calculate_80c_tax_saving → income tax + deduction analysis
+- calculate_ppf          → PPF corpus projection
+- calculate_emi          → loan EMI breakdown
+- adjust_for_inflation   → real value of a future amount
 
-Available tools: SIP calculator, Lumpsum calculator, XIRR, Tax saving 80C, PPF, EMI, Inflation adjuster.
-Call all relevant tools based on the user's query and analysis context.
+RULES:
+- Call ONE tool per response turn (Groq Llama requires sequential calls)
+- Use realistic Indian assumptions: equity 12% CAGR, debt 7%, inflation 6%
+- Do NOT invent tool names like calculate_nps — use calculate_ppf or calculate_sip instead
+- For XIRR: dates_str must be unique (different dates), not all the same date
+- Stop after 4 tool calls maximum; summarize remaining calculations in text
 """
 
 
@@ -44,7 +44,9 @@ def run_executor(state: FinanceAdvisorState) -> FinanceAdvisorState:
             model=config.LLM_MODEL,
             temperature=0.0,  # Deterministic for calculations
         )
-        llm_with_tools = llm.bind_tools(FINANCIAL_TOOLS)
+        # parallel_tool_calls=False is critical for Llama-3.1 on Groq:
+        # without it the model concatenates all calls into one malformed string
+        llm_with_tools = llm.bind_tools(FINANCIAL_TOOLS, parallel_tool_calls=False)
 
         query = state["user_query"]
         analysis = state.get("analysis_output", "No prior analysis.")

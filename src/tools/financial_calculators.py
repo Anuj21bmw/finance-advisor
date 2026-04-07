@@ -91,9 +91,22 @@ def calculate_xirr(
                    e.g., ["2022-01-01", "2022-07-01", "2023-01-01"]
     Returns: XIRR as annualized return percentage
     """
+    if len(cash_flows) != len(dates_str):
+        return "XIRR error: cash_flows and dates_str must have the same length."
+
     dates = [datetime.strptime(d, "%Y-%m-%d").date() for d in dates_str]
     base_date = dates[0]
     years_elapsed = [(d - base_date).days / 365.25 for d in dates]
+
+    # Guard: all dates identical → can't compute annualized return
+    if max(years_elapsed) == 0:
+        return "XIRR error: all dates are identical. Provide unique dates spread across the investment period."
+
+    # Guard: need at least one sign change in cash flows
+    has_positive = any(cf > 0 for cf in cash_flows)
+    has_negative = any(cf < 0 for cf in cash_flows)
+    if not (has_positive and has_negative):
+        return "XIRR error: cash flows must include both investments (negative) and returns (positive)."
 
     def npv(rate):
         return sum(cf / (1 + rate) ** t for cf, t in zip(cash_flows, years_elapsed))
@@ -109,7 +122,7 @@ def calculate_xirr(
             f"  Assessment           : {'Excellent' if xirr_pct > 15 else 'Good' if xirr_pct > 10 else 'Average' if xirr_pct > 6 else 'Below Inflation'}"
         )
     except ValueError:
-        return "XIRR could not be computed. Check that cash flows have at least one sign change."
+        return "XIRR could not be converged. Verify that cash flows represent a realistic investment scenario."
 
 
 # ── Tax Saving Calculator (Section 80C) ───────────────────────────────────────
