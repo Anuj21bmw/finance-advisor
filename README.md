@@ -1,4 +1,4 @@
-# 💰 Multi-Agent Personal Finance Advisor
+# Multi-Agent Personal Finance Advisor
 
 > Personalized investment advice for Indian users using bank statements + live market data + regulatory knowledge.
 
