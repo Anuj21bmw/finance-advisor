@@ -12,30 +12,54 @@ from src.rag.embeddings import embed_texts, embed_query, get_embedding_dimension
 # ── Pinecone Client ────────────────────────────────────────────────────────────
 
 def get_pinecone_index():
-    """Initialize Pinecone and return the index, creating it if needed."""
-    try:
-        from pinecone import Pinecone, ServerlessSpec
-        pc = Pinecone(api_key=config.PINECONE_API_KEY)
+    """
+    Initialize Pinecone and return the index.
+    Creates the index if it doesn't exist.
+    Recreates the index if dimension doesn't match the embedding model.
+    """
+    import time
+    from pinecone import Pinecone, ServerlessSpec
 
-        index_name = config.PINECONE_INDEX_NAME
-        existing = [idx.name for idx in pc.list_indexes()]
+    pc = Pinecone(api_key=config.PINECONE_API_KEY)
+    index_name = config.PINECONE_INDEX_NAME
+    required_dim = get_embedding_dimension()
+    existing_names = [idx.name for idx in pc.list_indexes()]
 
-        if index_name not in existing:
-            logger.info(f"Creating Pinecone index: {index_name}")
-            pc.create_index(
-                name=index_name,
-                dimension=get_embedding_dimension(),
-                metric="cosine",
-                spec=ServerlessSpec(cloud="aws", region=config.PINECONE_ENVIRONMENT),
+    if index_name in existing_names:
+        # Check dimension matches — recreate if not
+        desc = pc.describe_index(index_name)
+        existing_dim = desc.dimension
+        if existing_dim != required_dim:
+            logger.warning(
+                f"Index '{index_name}' has dimension {existing_dim} "
+                f"but model requires {required_dim}. Recreating index…"
             )
-            logger.success(f"Index '{index_name}' created")
+            pc.delete_index(index_name)
+            # Wait for deletion to propagate
+            for _ in range(20):
+                time.sleep(3)
+                if index_name not in [i.name for i in pc.list_indexes()]:
+                    break
+            # Fall through to create
         else:
-            logger.info(f"Using existing Pinecone index: {index_name}")
+            logger.info(f"Using existing Pinecone index: {index_name} (dim={existing_dim})")
+            return pc.Index(index_name)
 
-        return pc.Index(index_name)
-    except Exception as e:
-        logger.error(f"Pinecone initialization failed: {e}")
-        raise
+    logger.info(f"Creating Pinecone index: {index_name} (dim={required_dim})")
+    pc.create_index(
+        name=index_name,
+        dimension=required_dim,
+        metric="cosine",
+        spec=ServerlessSpec(cloud="aws", region="us-east-1"),
+    )
+    # Wait for index to be ready
+    for _ in range(30):
+        time.sleep(2)
+        info = pc.describe_index(index_name)
+        if getattr(info.status, "ready", False):
+            break
+    logger.success(f"Index '{index_name}' ready")
+    return pc.Index(index_name)
 
 
 # ── Upsert ─────────────────────────────────────────────────────────────────────
@@ -73,10 +97,16 @@ def upsert_documents(
 
 
 def clear_namespace(namespace: str = "default") -> None:
-    """Delete all vectors in a namespace (use before re-ingesting)."""
+    """Delete all vectors in a namespace (silently skips if namespace doesn't exist)."""
     index = get_pinecone_index()
-    index.delete(delete_all=True, namespace=namespace)
-    logger.info(f"Cleared namespace: {namespace}")
+    try:
+        index.delete(delete_all=True, namespace=namespace)
+        logger.info(f"Cleared namespace: {namespace}")
+    except Exception as e:
+        if "Namespace not found" in str(e) or "404" in str(e):
+            logger.info(f"Namespace '{namespace}' is empty — nothing to clear")
+        else:
+            raise
 
 
 # ── Retrieval ──────────────────────────────────────────────────────────────────

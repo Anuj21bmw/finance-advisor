@@ -238,8 +238,9 @@ def generate_bank_statement(output_path: str = None) -> Path:
     elements.append(Spacer(1, 0.3 * cm))
     elements.append(Paragraph("Account Summary (Apr–Sep 2024)", styles["Heading2"]))
 
-    total_credits = sum(t[4] for t in TRANSACTIONS if t[4] > 0)
-    total_debits = sum(t[3] for t in TRANSACTIONS if t[3] > 0)
+    # Tuple layout: (date_offset, description, debit, credit, category)
+    total_credits = sum(t[3] for t in TRANSACTIONS if t[3] > 0)
+    total_debits = sum(t[2] for t in TRANSACTIONS if t[2] > 0)
 
     summary_data = [
         ["Total Credits", f"₹{total_credits:,.2f}", "Opening Balance", f"₹{ACCOUNT_INFO['opening_balance']:,.2f}"],

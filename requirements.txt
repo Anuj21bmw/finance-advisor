@@ -6,7 +6,7 @@ langchain-core>=0.2.0
 langgraph>=0.1.0
 
 # Vector Store & Embeddings
-pinecone-client>=3.0.0
+pinecone>=5.0.0
 sentence-transformers>=2.7.0
 tiktoken>=0.7.0
 
