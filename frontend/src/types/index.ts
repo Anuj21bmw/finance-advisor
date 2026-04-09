@@ -139,6 +139,35 @@ export interface MarketIndex {
 export interface MarketIndicesResponse {
   indices: MarketIndex[]
   market_status: string
+  is_open: boolean
+  as_of: string
+}
+
+export interface MarketStatus {
+  is_open: boolean
+  status: 'OPEN' | 'CLOSED'
+  next_event: string
+  seconds_to_event: number
+  current_time_ist: string
+  date_ist: string
+}
+
+export interface StockItem {
+  symbol: string
+  yf_symbol: string
+  name: string
+  current: number
+  prev_close: number
+  change: number
+  change_pct: number
+  sparkline: number[]
+  timestamp: string
+}
+
+export interface TopStocksResponse {
+  all: StockItem[]
+  gainers: StockItem[]
+  losers: StockItem[]
   as_of: string
 }
 

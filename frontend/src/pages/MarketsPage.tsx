@@ -1,15 +1,79 @@
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import {
   LineChart, Line, ResponsiveContainer, Tooltip,
 } from 'recharts'
 import {
   TrendingUp, TrendingDown, Star, Clock, ExternalLink,
-  RefreshCw, Newspaper,
+  RefreshCw, Newspaper, Activity,
 } from 'lucide-react'
 import { clsx } from 'clsx'
 import { motion } from 'framer-motion'
 import { marketApi } from '@/api/client'
-import type { MarketIndex, MutualFund, NewsItem } from '@/types'
+import type { MarketIndex, MutualFund, NewsItem, StockItem } from '@/types'
+
+// ── Countdown hook ────────────────────────────────────────────────────────────
+
+function useCountdown(seconds: number) {
+  const [remaining, setRemaining] = useState(seconds)
+  useEffect(() => {
+    setRemaining(seconds)
+    const id = setInterval(() => setRemaining((s) => Math.max(0, s - 1)), 1000)
+    return () => clearInterval(id)
+  }, [seconds])
+
+  const h = Math.floor(remaining / 3600)
+  const m = Math.floor((remaining % 3600) / 60)
+  const s = remaining % 60
+  return h > 0
+    ? `${h}h ${m}m ${s}s`
+    : m > 0
+    ? `${m}m ${s}s`
+    : `${s}s`
+}
+
+// ── Market Status Badge ───────────────────────────────────────────────────────
+
+function MarketStatusBadge() {
+  const { data: status } = useQuery({
+    queryKey: ['market-status'],
+    queryFn: marketApi.status,
+    refetchInterval: 30000,
+    staleTime: 15000,
+  })
+
+  const countdown = useCountdown(status?.seconds_to_event ?? 0)
+
+  if (!status) return null
+
+  return (
+    <div className="flex items-center gap-3">
+      <div
+        className={clsx(
+          'flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm font-semibold',
+          status.is_open
+            ? 'bg-green-500/10 border-green-500/30 text-green-400'
+            : 'bg-slate-700/50 border-slate-600 text-slate-400'
+        )}
+      >
+        <span
+          className={clsx(
+            'w-2 h-2 rounded-full',
+            status.is_open ? 'bg-green-400 animate-pulse' : 'bg-slate-500'
+          )}
+        />
+        NSE {status.status}
+      </div>
+      <span className="text-slate-500 text-xs">
+        {status.next_event} in{' '}
+        <span className={clsx('font-mono font-semibold', status.is_open ? 'text-green-400' : 'text-slate-300')}>
+          {countdown}
+        </span>
+      </span>
+      <span className="text-slate-600 text-xs hidden sm:block">{status.current_time_ist}</span>
+    </div>
+  )
+}
 
 // ── Index Card ────────────────────────────────────────────────────────────────
 
@@ -20,7 +84,7 @@ function IndexCard({ index, i }: { index: MarketIndex; i: number }) {
   const formatValue = (idx: MarketIndex) => {
     if (idx.category === 'forex') return idx.current.toFixed(2)
     if (idx.category === 'commodity')
-      return `₹${idx.current.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`
+      return `$${idx.current.toLocaleString('en-US', { maximumFractionDigits: 0 })}`
     return idx.current.toLocaleString('en-IN', { maximumFractionDigits: 2 })
   }
 
@@ -69,6 +133,39 @@ function IndexCard({ index, i }: { index: MarketIndex; i: number }) {
           />
         </LineChart>
       </ResponsiveContainer>
+    </motion.div>
+  )
+}
+
+// ── Stock Row ────────────────────────────────────────────────────────────────
+
+function StockRow({ stock, i }: { stock: StockItem; i: number }) {
+  const isPositive = stock.change_pct >= 0
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: isPositive ? -10 : 10 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: i * 0.04 }}
+      className="flex items-center justify-between py-2.5 border-b border-border last:border-0"
+    >
+      <div className="flex items-center gap-3 min-w-0">
+        <div className="w-8 h-8 rounded-lg bg-slate-700 flex items-center justify-center flex-shrink-0">
+          <span className="text-white text-xs font-bold">{stock.symbol.slice(0, 2)}</span>
+        </div>
+        <div className="min-w-0">
+          <p className="text-white text-xs font-semibold truncate">{stock.symbol}</p>
+          <p className="text-slate-500 text-xs">NSE</p>
+        </div>
+      </div>
+      <div className="text-right flex-shrink-0">
+        <p className="text-white text-sm font-mono font-medium">
+          ₹{stock.current.toLocaleString('en-IN', { maximumFractionDigits: 2 })}
+        </p>
+        <p className={clsx('text-xs font-medium flex items-center justify-end gap-0.5', isPositive ? 'text-primary' : 'text-danger')}>
+          {isPositive ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
+          {isPositive ? '+' : ''}{stock.change_pct.toFixed(2)}%
+        </p>
+      </div>
     </motion.div>
   )
 }
@@ -171,13 +268,22 @@ export default function MarketsPage() {
   } = useQuery({
     queryKey: ['market-indices-page'],
     queryFn: marketApi.indices,
-    refetchInterval: 10000,
+    refetchInterval: 30000,
+    staleTime: 25000,
+  })
+
+  const { data: stocksData, isLoading: stocksLoading } = useQuery({
+    queryKey: ['market-stocks'],
+    queryFn: marketApi.stocks,
+    refetchInterval: 30000,
+    staleTime: 25000,
   })
 
   const { data: fundsData, isLoading: fundsLoading } = useQuery({
     queryKey: ['top-funds-page'],
     queryFn: marketApi.topFunds,
-    refetchInterval: 30000,
+    refetchInterval: 300000,
+    staleTime: 280000,
   })
 
   const { data: newsData, isLoading: newsLoading } = useQuery({
@@ -186,9 +292,13 @@ export default function MarketsPage() {
     refetchInterval: 60000,
   })
 
+  const isOpen = indicesData?.is_open ?? false
+
   const indices = indicesData?.indices ?? []
-  const funds = fundsData?.funds ?? []
-  const news = newsData?.news ?? []
+  const gainers = stocksData?.gainers ?? []
+  const losers  = stocksData?.losers ?? []
+  const funds   = fundsData?.funds ?? []
+  const news    = newsData?.news ?? []
 
   const lastUpdated = dataUpdatedAt
     ? new Date(dataUpdatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
@@ -197,14 +307,17 @@ export default function MarketsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h2 className="text-white font-semibold text-lg">Indian Markets</h2>
-          <p className="text-slate-400 text-xs mt-0.5">Live data · Auto-refreshes every 10s</p>
+          <p className="text-slate-400 text-xs mt-0.5">
+            Live data via NSE/BSE · Refreshes every {isOpen ? '30s' : '5min'}
+          </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
+          <MarketStatusBadge />
           <span className="text-slate-500 text-xs flex items-center gap-1">
-            <Clock size={12} /> Updated {lastUpdated}
+            <Clock size={12} /> {lastUpdated}
           </span>
           <button
             onClick={() => refetchIndices()}
@@ -233,13 +346,64 @@ export default function MarketsPage() {
         )}
       </section>
 
+      {/* Gainers & Losers */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Top Gainers */}
+        <div className="bg-surface border border-border rounded-xl">
+          <div className="px-5 py-4 border-b border-border flex items-center gap-2">
+            <TrendingUp size={16} className="text-primary" />
+            <h3 className="text-white font-semibold">Top Gainers</h3>
+            <span className="text-xs text-slate-500 ml-auto">NSE · Today</span>
+          </div>
+          <div className="px-5 py-2">
+            {stocksLoading ? (
+              <div className="space-y-3 py-3">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="h-10 bg-background rounded animate-pulse" />
+                ))}
+              </div>
+            ) : gainers.length > 0 ? (
+              gainers.slice(0, 8).map((s, i) => <StockRow key={s.symbol} stock={s} i={i} />)
+            ) : (
+              <p className="text-slate-500 text-sm py-6 text-center flex items-center justify-center gap-2">
+                <Activity size={16} /> Data loading...
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Top Losers */}
+        <div className="bg-surface border border-border rounded-xl">
+          <div className="px-5 py-4 border-b border-border flex items-center gap-2">
+            <TrendingDown size={16} className="text-danger" />
+            <h3 className="text-white font-semibold">Top Losers</h3>
+            <span className="text-xs text-slate-500 ml-auto">NSE · Today</span>
+          </div>
+          <div className="px-5 py-2">
+            {stocksLoading ? (
+              <div className="space-y-3 py-3">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="h-10 bg-background rounded animate-pulse" />
+                ))}
+              </div>
+            ) : losers.length > 0 ? (
+              losers.slice(0, 8).map((s, i) => <StockRow key={s.symbol} stock={s} i={i} />)
+            ) : (
+              <p className="text-slate-500 text-sm py-6 text-center flex items-center justify-center gap-2">
+                <Activity size={16} /> Data loading...
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Funds + News */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Top Mutual Funds Table */}
         <div className="xl:col-span-2 bg-surface border border-border rounded-xl">
           <div className="px-5 py-4 border-b border-border">
             <h3 className="text-white font-semibold">Top Mutual Funds</h3>
-            <p className="text-slate-400 text-xs mt-0.5">Direct Growth plans — ranked by 5Y returns</p>
+            <p className="text-slate-400 text-xs mt-0.5">Direct Growth plans — NAV from AMFI India</p>
           </div>
           <div className="overflow-x-auto">
             {fundsLoading ? (
@@ -280,9 +444,21 @@ export default function MarketsPage() {
                       <td className="px-4 py-3 text-white font-mono text-sm font-medium">
                         ₹{fund.nav.toFixed(2)}
                       </td>
-                      <td className="px-4 py-3 text-primary font-medium text-sm">{fund.returns_1y.toFixed(1)}%</td>
-                      <td className="px-4 py-3 text-primary font-medium text-sm">{fund.returns_3y.toFixed(1)}%</td>
-                      <td className="px-4 py-3 text-primary font-medium text-sm">{fund.returns_5y.toFixed(1)}%</td>
+                      <td className="px-4 py-3">
+                        {fund.returns_1y != null
+                          ? <span className="text-primary font-medium text-sm">{fund.returns_1y.toFixed(1)}%</span>
+                          : <span className="text-slate-600 text-xs">—</span>}
+                      </td>
+                      <td className="px-4 py-3">
+                        {fund.returns_3y != null
+                          ? <span className="text-primary font-medium text-sm">{fund.returns_3y.toFixed(1)}%</span>
+                          : <span className="text-slate-600 text-xs">—</span>}
+                      </td>
+                      <td className="px-4 py-3">
+                        {fund.returns_5y != null
+                          ? <span className="text-primary font-medium text-sm">{fund.returns_5y.toFixed(1)}%</span>
+                          : <span className="text-slate-600 text-xs">—</span>}
+                      </td>
                       <td className="px-4 py-3">
                         <RiskBadge risk={fund.risk} />
                       </td>

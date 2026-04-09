@@ -11,7 +11,9 @@ import type {
   XIRRRequest,
   CalculatorResponse,
   MarketIndicesResponse,
+  MarketStatus,
   TopFundsResponse,
+  TopStocksResponse,
   NewsResponse,
   DocumentUploadResponse,
   LoginPayload,
@@ -118,8 +120,16 @@ export const calculatorApi = {
 // ── Market API ────────────────────────────────────────────────────────────────
 
 export const marketApi = {
+  status: async (): Promise<MarketStatus> => {
+    const { data } = await api.get<MarketStatus>('/market/status')
+    return data
+  },
   indices: async (): Promise<MarketIndicesResponse> => {
     const { data } = await api.get<MarketIndicesResponse>('/market/indices')
+    return data
+  },
+  stocks: async (): Promise<TopStocksResponse> => {
+    const { data } = await api.get<TopStocksResponse>('/market/stocks')
     return data
   },
   topFunds: async (): Promise<TopFundsResponse> => {
