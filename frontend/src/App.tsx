@@ -9,6 +9,7 @@ import MarketsPage from '@/pages/MarketsPage'
 import CalculatorsPage from '@/pages/CalculatorsPage'
 import DocumentsPage from '@/pages/DocumentsPage'
 import PortfolioPage from '@/pages/PortfolioPage'
+import SettingsPage from '@/pages/SettingsPage'
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="calculators" element={<CalculatorsPage />} />
         <Route path="documents" element={<DocumentsPage />} />
         <Route path="portfolio" element={<PortfolioPage />} />
+        <Route path="settings" element={<SettingsPage />} />
       </Route>
 
       {/* Catch-all */}

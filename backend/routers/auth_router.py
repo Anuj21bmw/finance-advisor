@@ -83,7 +83,7 @@ def register(body: RegisterRequest, db: Session = Depends(get_db)):
     token = create_access_token({"sub": user.email})
     return TokenResponse(
         access_token=token,
-        user={"id": user.id, "full_name": user.full_name, "email": user.email},
+        user={"id": user.id, "full_name": user.full_name, "email": user.email, "created_at": user.created_at.isoformat()},
     )
 
 
@@ -105,7 +105,7 @@ def login(body: LoginRequest, db: Session = Depends(get_db)):
     token = create_access_token({"sub": user.email})
     return TokenResponse(
         access_token=token,
-        user={"id": user.id, "full_name": user.full_name, "email": user.email},
+        user={"id": user.id, "full_name": user.full_name, "email": user.email, "created_at": user.last_login.isoformat() if user.last_login else user.created_at.isoformat()},
     )
 
 
