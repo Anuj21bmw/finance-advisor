@@ -25,10 +25,10 @@ export default function Layout() {
         className="flex-1 flex flex-col min-h-screen min-w-0 lg:ml-auto"
         style={{ marginLeft: undefined }} // let motion handle it on lg+
       >
-        {/* Override motion marginLeft on mobile (always 0) */}
+        {/* Mobile: force marginLeft 0 (sidebar is an overlay drawer) */}
         <div className="flex-1 flex flex-col min-h-screen lg:hidden" style={{ marginLeft: 0 }}>
           <Navbar onMobileMenuClick={() => setMobileOpen(true)} />
-          <main className="flex-1 p-4 sm:p-6 overflow-auto">
+          <main className="flex-1 p-4 sm:p-5 overflow-auto">
             <Outlet />
           </main>
         </div>
@@ -36,7 +36,7 @@ export default function Layout() {
         {/* Desktop layout */}
         <div className="hidden lg:flex flex-col flex-1 min-h-screen">
           <Navbar onMobileMenuClick={() => setMobileOpen(true)} />
-          <main className="flex-1 p-6 overflow-auto">
+          <main className="flex-1 p-5 xl:p-6 overflow-auto">
             <Outlet />
           </main>
         </div>

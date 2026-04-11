@@ -406,7 +406,7 @@ export default function AdvisorPage() {
   }
 
   return (
-    <div className="flex gap-4 h-[calc(100vh-7rem)]">
+    <div className="flex gap-4 h-[calc(100dvh-5rem)] sm:h-[calc(100dvh-6rem)] lg:h-[calc(100dvh-7rem)]">
       {/* Left Panel — Profile + Agent Status (hidden on mobile) */}
       <div className="hidden lg:flex w-72 flex-shrink-0 flex-col space-y-4 overflow-y-auto">
         <ProfilePanel />

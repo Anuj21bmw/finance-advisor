@@ -181,15 +181,15 @@ export default function DashboardPage() {
       </div>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* SIP Growth Chart */}
         <div className="xl:col-span-2 bg-surface border border-border rounded-xl p-5">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
             <div>
               <h3 className="text-white font-semibold">SIP Growth Projection</h3>
               <p className="text-slate-400 text-xs mt-0.5">₹21,000/month — Projected corpus (₹ Lakhs)</p>
             </div>
-            <div className="flex gap-3 text-xs">
+            <div className="flex gap-3 text-xs flex-wrap">
               <span className="flex items-center gap-1.5 text-slate-400">
                 <span className="w-3 h-1 bg-primary rounded inline-block" /> 12% p.a.
               </span>
@@ -266,7 +266,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Market Indices + Funds */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Market Indices Widget */}
         <div className="bg-surface border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
@@ -366,7 +366,7 @@ export default function DashboardPage() {
             Ask AI Advisor <ChevronRight size={12} />
           </Link>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {RECENT_INSIGHTS.map((insight, i) => (
             <motion.div
               key={insight.id}

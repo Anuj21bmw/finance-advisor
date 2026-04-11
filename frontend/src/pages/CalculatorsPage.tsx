@@ -108,7 +108,7 @@ function SIPCalculator() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="space-y-5">
         <Slider
           label="Monthly Investment" value={monthly} min={500} max={100000} step={500}
@@ -227,7 +227,7 @@ function TaxCalculator() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="space-y-4">
         <NumberInput label="Annual Income (₹)" value={income} onChange={setIncome} prefix="₹" />
         <NumberInput label="80C Investments (₹)" value={inv80c} onChange={setInv80c} prefix="₹" />
@@ -313,7 +313,7 @@ function PPFCalculator() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="space-y-5">
         <Slider
           label="Annual PPF Investment" value={annual} min={500} max={150000} step={1000}
@@ -396,7 +396,7 @@ function EMICalculator() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="space-y-5">
         <Slider
           label="Loan Amount" value={principal} min={100000} max={10000000} step={100000}
@@ -587,7 +587,7 @@ export default function CalculatorsPage() {
       </div>
 
       {/* Tab Bar */}
-      <div className="flex gap-1 bg-surface border border-border rounded-xl p-1 overflow-x-auto scrollbar-none w-fit">
+      <div className="flex gap-1 bg-surface border border-border rounded-xl p-1 overflow-x-auto scrollbar-none w-full sm:w-fit">
         {TABS.map((tab) => (
           <button
             key={tab.id}
@@ -613,7 +613,7 @@ export default function CalculatorsPage() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.15 }}
-          className="bg-surface border border-border rounded-xl p-6"
+          className="bg-surface border border-border rounded-xl p-4 sm:p-6"
         >
           {active.component}
         </motion.div>

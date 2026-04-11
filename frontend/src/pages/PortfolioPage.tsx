@@ -145,7 +145,7 @@ export default function PortfolioPage() {
       </div>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Historical Performance */}
         <div className="xl:col-span-2 bg-surface border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">

@@ -332,13 +332,13 @@ export default function MarketsPage() {
       <section>
         <h3 className="text-slate-400 text-xs font-medium uppercase tracking-wider mb-3">Market Indices</h3>
         {indicesLoading ? (
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
             {[...Array(6)].map((_, i) => (
               <div key={i} className="bg-surface border border-border rounded-xl p-4 h-36 animate-pulse" />
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
             {indices.map((idx, i) => (
               <IndexCard key={idx.symbol} index={idx} i={i} />
             ))}
@@ -398,7 +398,7 @@ export default function MarketsPage() {
       </div>
 
       {/* Funds + News */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Top Mutual Funds Table */}
         <div className="xl:col-span-2 bg-surface border border-border rounded-xl">
           <div className="px-5 py-4 border-b border-border">

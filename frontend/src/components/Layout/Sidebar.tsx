@@ -200,7 +200,7 @@ export default function Sidebar({ mobileOpen = false, onMobileClose }: SidebarPr
               animate={{ x: 0 }}
               exit={{ x: -280 }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="lg:hidden fixed left-0 top-0 h-screen w-64 bg-slate-800 border-r border-slate-700 z-50 flex flex-col overflow-hidden"
+              className="lg:hidden fixed left-0 top-0 h-screen w-[min(16rem,85vw)] bg-slate-800 border-r border-slate-700 z-50 flex flex-col overflow-hidden"
             >
               {SidebarContent}
             </motion.aside>

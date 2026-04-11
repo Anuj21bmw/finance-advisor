@@ -55,12 +55,12 @@ function SettingRow({
   label, description, children,
 }: { label: string; description?: string; children: React.ReactNode }) {
   return (
-    <div className="flex items-center justify-between gap-4">
-      <div className="min-w-0">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4">
+      <div className="min-w-0 flex-1">
         <p className="text-white text-sm font-medium">{label}</p>
         {description && <p className="text-slate-500 text-xs mt-0.5">{description}</p>}
       </div>
-      {children}
+      <div className="flex-shrink-0">{children}</div>
     </div>
   )
 }
@@ -121,14 +121,14 @@ export default function SettingsPage() {
           <input
             value={profileForm.full_name}
             onChange={(e) => setProfileForm((f) => ({ ...f, full_name: e.target.value }))}
-            className="bg-background border border-border rounded-lg px-3 py-1.5 text-white text-sm focus:border-primary outline-none transition-colors w-52"
+            className="bg-background border border-border rounded-lg px-3 py-1.5 text-white text-sm focus:border-primary outline-none transition-colors w-full sm:w-52"
           />
         </SettingRow>
         <SettingRow label="Email">
           <input
             value={profileForm.email}
             onChange={(e) => setProfileForm((f) => ({ ...f, email: e.target.value }))}
-            className="bg-background border border-border rounded-lg px-3 py-1.5 text-white text-sm focus:border-primary outline-none transition-colors w-52"
+            className="bg-background border border-border rounded-lg px-3 py-1.5 text-white text-sm focus:border-primary outline-none transition-colors w-full sm:w-52"
             type="email"
           />
         </SettingRow>

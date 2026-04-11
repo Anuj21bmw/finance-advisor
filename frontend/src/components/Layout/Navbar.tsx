@@ -103,7 +103,7 @@ function NotificationsDropdown({ onClose }: { onClose: () => void }) {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 8, scale: 0.97 }}
       transition={{ duration: 0.15 }}
-      className="absolute right-0 top-full mt-2 w-80 bg-slate-800 border border-slate-700 rounded-xl shadow-2xl z-50 overflow-hidden"
+      className="absolute right-0 top-full mt-2 w-[calc(100vw-2rem)] sm:w-80 max-w-sm bg-slate-800 border border-slate-700 rounded-xl shadow-2xl z-50 overflow-hidden"
     >
       {/* Header */}
       <div className="px-4 py-3 border-b border-slate-700 flex items-center justify-between">

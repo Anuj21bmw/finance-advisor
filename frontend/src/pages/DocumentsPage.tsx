@@ -140,7 +140,7 @@ export default function DocumentsPage() {
       <div
         {...getRootProps()}
         className={clsx(
-          'border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-all',
+          'border-2 border-dashed rounded-2xl p-6 sm:p-10 text-center cursor-pointer transition-all',
           isDragActive
             ? 'border-primary bg-primary/5'
             : 'border-border hover:border-slate-500 hover:bg-surface/50'
@@ -281,7 +281,7 @@ export default function DocumentsPage() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
           >
             <div className="bg-primary/10 border border-primary/20 rounded-xl p-4">
               <p className="text-primary text-xs font-medium uppercase tracking-wider">Chunks Indexed</p>

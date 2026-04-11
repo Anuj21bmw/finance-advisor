@@ -169,6 +169,8 @@ export function createAdvisorWebSocket(
   onClose?: () => void
 ): WebSocket {
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
+  // In dev, Vite runs on port 3000 but the WS proxy forwards /api to :8000
+  // In prod, the host serves both frontend and backend on the same origin
   const host = window.location.host
   const ws = new WebSocket(`${protocol}//${host}/api/advisor/stream`)
 
